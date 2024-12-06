@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Simple Calculator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #E2E8F0; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; 
+            justify-content: center;
+            align-items: center;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: #1F2937;
+            color: white;
+            width: 100%;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        header nav a {
+            font-size: 1.1rem;
+            margin: 0 10px;
+        }
+
+        .calculator {
+            width: 100%;
+            max-width: 400px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            padding: 20px;
+            margin-top: 40px;
+            background-color: #1E293B; 
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 15px;
+        }
+
+        #display {
+            grid-column: span 4;
+            font-size: 2.5rem;
+            text-align: right;
+            padding: 20px;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            color: #1E293B;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            font-family: 'Roboto', sans-serif;
+            padding: 15px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            transition: transform 0.2s ease-in-out, background-color 0.2s;
+        }
+
+        button[data-number="true"] {
+            background-color: #475569;
+            color: white;
+        }
+
+        button[data-clear="true"] {
+            background-color: #fa4437; 
+            color: white;
+        }
+
+        button[data-non="true"] {
+            background-color: #3B82F6;
+            color: white;
+        }
+
+        button[data-equal="true"] {
+            background-color: #16A34A;
+            color: white;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .span-2 {
+            grid-column: span 4;
+        }
+
+        footer {
+            margin-top: auto;
+            background-color: #1F2937; 
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header class="p-6 text-center">
+        <h1 class="font-bold">My Simple Calculator</h1>
+        <nav class="mt-4">
+            <a href="home.html" class="text-white hover:text-blue-300 px-4">Home</a>
+            <a href="about.html" class="text-white hover:text-blue-300 px-4">About Me</a>
+            <a href="calculator.html" class="text-white hover:text-blue-300 px-4">Calculator</a>
+            <a href="portofolio.html" class="text-white hover:text-blue-300 px-4">Portfolio</a>
+            <a href="registration.html" class="text-white hover:text-blue-300 px-4">Regsitration Form</a>
+        </nav>
+    </header>
+    <div class="calculator">
+        <p id="display">0</p>
+
+        <button data-number="true" onclick="press('7')">7</button>
+        <button data-number="true" onclick="press('8')">8</button>
+        <button data-number="true" onclick="press('9')">9</button>
+        <button data-non="true" onclick="press('/')">/</button>
+
+        <button data-number="true" onclick="press('4')">4</button>
+        <button data-number="true" onclick="press('5')">5</button>
+        <button data-number="true" onclick="press('6')">6</button>
+        <button data-non="true" onclick="press('*')">*</button>
+
+        <button data-number="true" onclick="press('1')">1</button>
+        <button data-number="true" onclick="press('2')">2</button>
+        <button data-number="true" onclick="press('3')">3</button>
+        <button data-non="true" onclick="press('-')">-</button>
+
+        <button data-number="true" onclick="press('0')">0</button>
+        <button data-non="true" onclick="press('.')">.</button>
+        <button data-clear="true" onclick="clearConsole()">C</button>
+        <button data-non="true" onclick="press('+')">+</button>
+
+        <button class="span-2" data-equal="true" onclick="calculate()">=</button>
+    </div>
+    <footer class="w-full text-white text-center rounded-md p-4 shadow-lg">
+        <p>&copy; 2024 Timothy Pakpahan. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let expression = '';
+
+        function press(value) {
+            expression += value;
+            updateDisplay();
+        }
+
+        function calculate() {
+            try {
+                if (expression.includes('/') && expression.split('/').pop() === '0') {
+                    expression = 'Error';
+                } else {
+                    const result = eval(expression);
+                    expression = result.toString();
+                }
+                updateDisplay();
+            } catch (error) {
+                expression = 'Error';
+                updateDisplay();
+            }
+        }
+
+        function clearConsole() {
+            expression = '';
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            document.getElementById("display").innerText = expression || '0';
+        }
+    </script>
+</body>
+</html>
